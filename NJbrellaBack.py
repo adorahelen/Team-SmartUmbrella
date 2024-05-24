@@ -25,13 +25,13 @@ def index():
 
 @app.route('/login')
 def login():
-    return send_from_directory('build', 'Login.js')
+    return send_from_directory('build', 'index.html')
 
 
 @app.route('/signup')
 def signup():
     # Signup.js 파일을 제공하도록 수정
-    return send_from_directory('build', 'Signup.js')
+    return send_from_directory('build', 'index.html')
 
 
 if __name__ == '__main__':
