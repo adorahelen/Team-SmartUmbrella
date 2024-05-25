@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify, send_from_directory
+from flask import Blueprint, request, jsonify, send_from_directory, redirect, url_for
 from models import db, User
-from werkzeug.security import generate_password_hash, check_password_hash  # 추가
+from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint('main', __name__, static_url_path='', static_folder='build')
 
@@ -25,9 +25,6 @@ def signup():
     email = data.get('email')
     password = data.get('password')
 
-    # # 비밀번호 해시화
-    # hashed_password = generate_password_hash(password, method='sha256')
-
     # 새 사용자 생성 및 데이터베이스에 추가
     new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
     db.session.add(new_user)
@@ -46,3 +43,24 @@ def signup():
     }
 
     return jsonify(response), 201
+
+@main.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+
+    email = data.get('email')
+    password = data.get('password')
+
+    # 데이터베이스에서 사용자 검색
+    user = User.query.filter_by(email=email).first()
+
+    # 사용자가 존재하고 비밀번호가 일치하는지 확인
+    if user and user.password == password:
+        # 로그인 성공, 홈 화면으로 리디렉션
+        return redirect(url_for('main.index'))
+    else:
+        # 로그인 실패, 에러 메시지 반환
+        response = {
+            'message': 'Login failed. Check your email and password.'
+        }
+        return jsonify(response), 401
