@@ -1,40 +1,48 @@
-from flask import request, jsonify
-from .models import db, User
-from . import app
+from flask import Blueprint, request, jsonify, send_from_directory
+from models import db, User
+from werkzeug.security import generate_password_hash, check_password_hash  # 추가
 
-# 이후에 app 객체를 사용하는 코드 작성
+main = Blueprint('main', __name__, static_url_path='', static_folder='build')
 
-# 회원가입 엔드포인트
-@app.route('/signup', methods=['POST'])
+@main.route('/')
+def index():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/login')
+def login_page():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/signup')
+def signup_page():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
-    first_name = data.get('first_name')
-    last_name = data.get('last_name')
+
+    first_name = data.get('firstName')
+    last_name = data.get('lastName')
     email = data.get('email')
     password = data.get('password')
 
-    # 각 필드를 검증하는 로직을 추가할 수 있습니다.
+    # # 비밀번호 해시화
+    # hashed_password = generate_password_hash(password, method='sha256')
 
-    # 데이터베이스에 새로운 사용자 추가
+    # 새 사용자 생성 및 데이터베이스에 추가
     new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message': 'Sign up successful'})
+    print(f"Received signup data: {data}")
 
-# 로그인 엔드포인트
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    # 회원가입 성공 응답
+    response = {
+        'message': 'User registered successfully',
+        'user': {
+            'firstName': first_name,
+            'lastName': last_name,
+            'email': email,
+        }
+    }
 
-    # 여기에서 로그인 처리 로직을 작성
-    # 예를 들어, 데이터베이스에서 이메일과 패스워드를 확인하고 성공 여부를 반환
-
-    # 간단한 예시: 입력한 이메일과 패스워드가 데이터베이스에 있는지 확인
-    user = User.query.filter_by(email=email, password=password).first()
-    if user:
-        return jsonify({'message': 'Login successful'})
-    else:
-        return jsonify({'message': 'Login failed'}), 401  # 실패시 401 Unauthorized 반환
+    return jsonify(response), 201
