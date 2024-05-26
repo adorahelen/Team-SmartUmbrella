@@ -57,7 +57,11 @@ def login():
     # 사용자가 존재하고 비밀번호가 일치하는지 확인
     if user and user.password == password:
         # 로그인 성공, 홈 화면으로 리디렉션
-        return redirect(url_for('main.index'))
+        response = {
+            'message': 'Login successful',
+            'redirect': '/',
+        }
+        return jsonify(response), 200
     else:
         # 로그인 실패, 에러 메시지 반환
         response = {
