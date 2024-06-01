@@ -18,3 +18,16 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.email}>'
+
+
+
+# 소켓 통신을 위한 데이터베이스 모델 추가 (테이블) => 소캣 통신에서 Http프로토콜 이용한 통신으로 전향
+# 차이는 연결형 => 비연결형 / TCP => UDP로 전향
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.String(500), nullable=False)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<Log {self.data[:20]}...>'
+

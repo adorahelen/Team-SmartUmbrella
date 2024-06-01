@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify, send_from_directory, redirect, url_for
-from models import db, User
+from models import db, User, Log
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, request, jsonify
+import json  # Add this import statement
+
 
 main = Blueprint('main', __name__, static_url_path='', static_folder='build')
 
@@ -68,3 +71,14 @@ def login():
             'message': 'Login failed. Check your email and password.'
         }
         return jsonify(response), 401
+
+#소켓 통신을 위한 로그 코드 응답 추가 => HTTP 통신을 위한/ 임베디드 측에서 엔드포인트('/log') 부분 맞춰야 함
+@main.route('/log', methods=['POST'])
+def log_data():
+    data = request.get_json()
+    if data:
+        log = Log(data=json.dumps(data))  # JSON string storage
+        db.session.add(log)
+        db.session.commit()
+        return jsonify({'message': 'Data logged successfully'}), 201
+    return jsonify({'message': 'No data received or incorrect format'}), 400
