@@ -7,6 +7,7 @@ import json  # Add this import statement
 
 main = Blueprint('main', __name__, static_url_path='', static_folder='build')
 
+#http://localhost:3000/
 @main.route('/')
 def index():
     return send_from_directory('build', 'index.html')
@@ -17,6 +18,18 @@ def login_page():
 
 @main.route('/signup')
 def signup_page():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/section1')
+def index2():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/section2')
+def index3():
+    return send_from_directory('build', 'index.html')
+
+@main.route('/section3')
+def index4():
     return send_from_directory('build', 'index.html')
 
 @main.route('/signup', methods=['POST'])
