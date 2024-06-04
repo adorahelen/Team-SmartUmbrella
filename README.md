@@ -16,6 +16,9 @@
 - RFID 센서를 통한 태그 (전자 대여 서비스)
 - GPS 센서를 통한 위도/경도 값 추출
 - LED 센서를 통한 방향 안내
+- T-MAP API 를 통한 지도서비스
+- T-MAP API 를 통한 출발지/목적지 설정
+- T-MAP API 를 통한 보행자 경로 알고리즘
 
   
 </div>
@@ -33,4 +36,18 @@
 
 ![KakaoTalk_20240604_221625801_01](https://github.com/adorahelen/pythonProject/assets/127845112/d037c133-0811-4c22-bad7-397b1c818d19)
 
+</div>
+</br>
 
+##4. 개발과정 :
+![그림01](https://github.com/adorahelen/pythonProject/assets/127845112/72c58046-eb31-4ca7-bdf5-0fe43acdaf6a)
+
+- T-MAP API를 이용한 출발지/목적지 설정
+
+![그림02](https://github.com/adorahelen/pythonProject/assets/127845112/71f9be68-2b71-489e-95ab-cea6181c380b)
+
+![그림03](https://github.com/adorahelen/pythonProject/assets/127845112/c0e745b6-a5b2-49c1-bc46-733ffaa412fc)
+
+- 회원가입&로그인 UI
+
+  
