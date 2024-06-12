@@ -17,6 +17,6 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
-    app.run(debug=True, host='172.30.1.74', port=3000)
+    app.run(debug=True, host='10.32.40.121', port=3000)
     #주기적인 IP 수정 필요, CMD => IP confih => host부분 수정
     #if 로컬 네트워크 통신, 같은 네트워크 잡아야 함
